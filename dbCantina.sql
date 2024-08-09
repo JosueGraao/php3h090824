@@ -1,27 +1,62 @@
 -- apagando banco de dados
-
 drop database dbcantina;
-
---criando banco de dados
-
+ 
+-- criando banco de dados
 create database dbcantina;
-
---acessando banco de dados
-
+ 
+-- acessando banco de dados
 use dbcantina;
-
--- criando tabelas
-
+ 
+-- criando as tabelas
 create table tbFuncionarios(
--- 11 caracteres é o padrão em variáveis integer. Pode ser definido um número menor, mas nunca um maior.
 codFunc int not null auto_increment,
 nome varchar(100) not null,
--- unique define que o conteúdo deste campo não pode se repetir no banco
 email varchar(100) unique,
 cpf char(14) not null unique,
--- default define um preenchimento automático caso o campo não seja preenchido
 sexo char(1) default 'F' check(sexo in('F','M')),
-salario decimal(9,2),
+salario decimal(9,2) default 0 check(salario >=0),
 nascimento date,
 telCelular char(10),
 primary key(codFunc));
+ 
+create table tbFornecedores(
+codForn int not null auto_increment,
+nome varchar(100) not null,
+email varchar(100) not null,
+cnpj char(17) not null unique,
+primary key(codForn));
+ 
+create table tbClientes(
+codCli int not null auto_increment,
+nome varchar(100) not null,
+email varchar(100),
+telCelular char(10),
+primary key(codCli));
+ 
+create table tbUsuarios(
+codUsu int not null auto_increment,
+nome varchar(25) not null unique,
+senha varchar(10) not null,
+codFunc int not null,
+primary key(codUsu),
+foreign key(codFunc)references tbFuncionarios(codFunc));
+ 
+create table tbProdutos(
+codProd int not null auto_increment,
+descricao varchar(100),
+quantidade int,
+valor decimal(9,2),
+validade date,
+dataEntrada date,
+horaEntrada time,
+codForn int not null,
+primary key(codProd),
+foreign key(codForn) references tbFornecedores(codForn)
+);
+ 
+ 
+-- visualizando a estrutura das tabelas
+desc tbFuncionarios;
+desc tbFornecedores;
+desc tbUsuarios;
+desc tbProdutos;

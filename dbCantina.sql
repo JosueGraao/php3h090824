@@ -54,9 +54,23 @@ primary key(codProd),
 foreign key(codForn) references tbFornecedores(codForn)
 );
  
- 
+create table tbVendas(
+codVenda int not null auto_increment,
+dataVenda date,
+horaVenda time,
+quantidade int,
+codUsu int not null,
+codCli int not null,
+codProd int not null,
+primary key(codVenda),
+foreign key (codUsu)references tbUsuarios(codUsu),
+foreign key (codCli)references tbClientes(codCli),
+foreign key (codProd)references tbProdutos(codProd)
+);
+
 -- visualizando a estrutura das tabelas
 desc tbFuncionarios;
 desc tbFornecedores;
 desc tbUsuarios;
 desc tbProdutos;
+desc tbVendas;
